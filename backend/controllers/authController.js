@@ -83,7 +83,7 @@ const sendVerificationEmailLogin = asyncHandler(async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (!existingUser || existingUser.isAdmin) {
-        return res.status(401).json({ message: "User does not exist" });
+        return res.status(404).json({ message: "User does not exist" });
     }
 
     const { accessToken, refreshToken } = await createTokens(existingUser, res);

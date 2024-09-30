@@ -71,7 +71,7 @@ export default function Login() {
                 favourite: favouriteItems
             })
 
-            if (err && err.status === 400) {
+            if (err && err.status === 404) {
                 toast.error('User does not exist', {
                     position: "top-right",
                     autoClose: 1500,

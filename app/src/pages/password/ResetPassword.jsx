@@ -43,10 +43,24 @@ export default function ResetPassword() {
             } 
 
             console.log(accessToken, id)
-            const { data } = await reset({
+            const { data, error:err } = await reset({
                 password: userInputs.password,
                 id, accessToken
             })
+
+            if (err) {
+                toast.error('Something went wrong', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                })
+                return
+            }
 
             if (data.message.includes('successful')) {
                 toast.success('Password reset successfully', {

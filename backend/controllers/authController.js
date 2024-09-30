@@ -82,7 +82,7 @@ const sendVerificationEmailLogin = asyncHandler(async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    if (!existingUser) {
+    if (!existingUser || existingUser.isAdmin) {
         return res.status(401).json({ message: "User does not exist" });
     }
 
@@ -136,7 +136,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
     const existingUser = await User.findById(id);
 
-    if (!existingUser) {
+    if (!existingUser || existingUser.isAdmin) {
         return res.status(400).json({ message: "User does not exist" });
     }
 
@@ -354,7 +354,7 @@ const refresh = asyncHandler(async (req, res) => {
 
         const existingUser = await User.findById(decoded.userInfo.id);
 
-        if (!existingUser) {
+        if (!existingUser || existingUser.isAdmin) {
             return res.status(404).json({ message: "User not found" });
         }
 
@@ -377,7 +377,7 @@ const logout = asyncHandler(async (req, res) => {
 
     const existingUser = await User.findById(id);
 
-    if (!existingUser) {
+    if (!existingUser || existingUser.isAdmin) {
         return res.status(404).json({ message: "User not found" });
     }
 

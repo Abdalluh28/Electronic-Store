@@ -9,7 +9,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
     const existingUser = await User.findOne({email});
 
-    if(!existingUser){
+    if(!existingUser || existingUser.isAdmin) {
         return res.status(404).json({message: 'User not found'})
     }
 

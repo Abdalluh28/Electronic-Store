@@ -137,7 +137,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
     const existingUser = await User.findById(id);
 
     if (!existingUser || existingUser.isAdmin) {
-        return res.status(400).json({ message: "User does not exist" });
+        return res.status(404).json({ message: "User does not exist" });
     }
 
     try {
@@ -174,7 +174,7 @@ const login = asyncHandler(async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (!existingUser || existingUser.isAdmin) {
-        return res.status(400).json({ message: "User does not exist" });
+        return res.status(404).json({ message: "User does not exist" });
     }
 
     if (!existingUser.isVerified) {

@@ -215,6 +215,21 @@ export default function Login() {
             accessToken
         })
 
+        if (err && err.status === 404) {
+            toast.error('User does not exist', {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+            return
+        }
+
+
         if (data) {
             const accessToken = data?.accessToken
             const refreshToken = data?.refreshToken

@@ -27,7 +27,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
         from: 'abdok7496@gmail.com',
         to: email,
         subject: 'Reset Password',
-        text: `http://localhost:3001/password/reset/${existingUser._id}/${accessToken}`
+        text: `${process.env.CLIENT_URL}/password/reset/${existingUser._id}/${accessToken}`
       };
       
       transporter.sendMail(mailOptions, function(error, info){

@@ -8,14 +8,14 @@ const addProduct = asyncHandler(async (req, res) => {
     try {
 
 
-        const { name, price, description, quantity, category, brand, countInStock } = req.fields;
+        const { name, price, description, quantity, category, brand } = req.fields;
 
-        if (!name || !price || !description || !quantity || !category || !brand || !countInStock) {
+        if (!name || !price || !description || !quantity || !category || !brand) {
             return res.status(401).json({ error: 'Please provide all fields' })
         }
 
 
-        const product = await Product.create({ name, price, description, quantity, category, brand, countInStock });
+        const product = await Product.create({ name, price, description, quantity, category, brand });
 
         await product.save();
 

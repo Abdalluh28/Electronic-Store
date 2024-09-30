@@ -217,15 +217,8 @@ export default function SingleProduct() {
                             <h1 className='text-2xl font-bold'>{data?.product?.name}</h1>
 
                             <div className='flex text-lg'>
-                                <p className='w-1/3'>{data?.product?.countInStock > 0 ? <span className='text-green-500 '>
-                                    In Stock
-                                </span> : <span className='text-red-500'>Out of Stock</span>}</p>
-
-                                <div className='w-2/3 flex gap-2'>
-                                    <span>{ratingStars} </span>
-                                    <span className='text-gray-400'>({data?.product?.numReviews} reviews)</span>
-                                </div>
-
+                                <span>{ratingStars} </span>
+                                <span className='text-gray-400'>({data?.product?.numReviews} reviews)</span>
                             </div>
 
                             <div className='mt-2'>

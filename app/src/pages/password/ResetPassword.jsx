@@ -28,11 +28,19 @@ export default function ResetPassword() {
         try {
 
             if (userInputs.password.length < 8) {
-                document.querySelector('.passwordLength').style.display = 'block'
-                throw new Error('Password length should be 8 characters at least')
-            } else {
-                document.querySelector('.passwordLength').style.display = 'none'
-            }
+                toast.error('Password length should be 8 characters at least', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    onClose: () => navigate('/auth/login'),
+                })
+                return
+            } 
 
             console.log(accessToken, id)
             const { data } = await reset({
@@ -95,7 +103,6 @@ export default function ResetPassword() {
                                 onClick={eyeShow} />
                             <div style={{ display: 'none' }} className='text-red-500 text-lg passwordIsWrong'>Incorrect password</div>
                         </div>
-                        <div style={{ display: 'none' }} className='text-red-500 text-lg passwordLength'>Password length should be 8 characters at least</div>
                     </div>
                     <button className='w-25 text-white btn btn-outline-primary p-2 rounded-lg' type='submit'>
                         {isLoading ? <Spinner animation="border" /> : 'Submit'}

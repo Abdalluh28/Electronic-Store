@@ -23,9 +23,25 @@ export default function ForgotPassword() {
             })
 
             if (err && err.status === 404) {
-                document.querySelector('.userNotExist').style.display = 'block'
+                toast.error('User does not exist', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                    theme: "dark",
+                })
             } else {
-                document.querySelector('.userNotExist').style.display = 'none'
+                toast.error('Something went wrong', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                    theme: "dark",
+                })
             }
 
             console.log(data.message.includes('Email sent'))
@@ -67,7 +83,6 @@ export default function ForgotPassword() {
                         <label className='' id='email'>Email Address</label>
                         <input required className='border-1 rounded-xl w-75 bg-black' type="email" name="email" id="email" value={userInputs.email}
                             onChange={(e) => setUserInputs({ ...userInputs, email: e.target.value })} />
-                        <div style={{ display: 'none' }} className=' text-red-500 text-lg userNotExist'>User does not exist</div>
                     </div>
                     <button className='w-25 text-white btn btn-outline-primary p-2 rounded-lg' type='submit'>
                         {isLoading ? <Spinner animation="border" role="status">

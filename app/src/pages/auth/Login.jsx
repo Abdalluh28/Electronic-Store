@@ -208,6 +208,7 @@ export default function Login() {
                 draggable: true,
                 progress: undefined,
             })
+            return
         }
 
         const { data, error: err } = await sendVerificationEmail({

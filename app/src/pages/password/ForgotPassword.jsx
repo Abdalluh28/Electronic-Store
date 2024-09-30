@@ -32,7 +32,8 @@ export default function ForgotPassword() {
                     progress: undefined,
                     theme: "dark",
                 })
-            } else {
+                return
+            } else if (err) {
                 toast.error('Something went wrong', {
                     position: "top-right",
                     autoClose: 1500,
@@ -42,6 +43,7 @@ export default function ForgotPassword() {
                     progress: undefined,
                     theme: "dark",
                 })
+                return
             }
 
             console.log(data.message.includes('Email sent'))

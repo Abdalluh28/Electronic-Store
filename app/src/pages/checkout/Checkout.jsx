@@ -9,6 +9,7 @@ import { useClearCartDBMutation } from '../../redux/features/cart/cartApiSlice';
 import { useNavigate } from 'react-router';
 import { Spinner } from 'react-bootstrap';
 import Cookie from 'js-cookie';
+import { setFlag } from '../../redux/slices/ordersSlice';
 
 export default function CustomCheckout() {
     const stripe = useStripe();
@@ -32,6 +33,7 @@ export default function CustomCheckout() {
     const [createOrder, { isLoading: orderIsLoading }] = useCreateOrderMutation();
 
     const cartItmes = useSelector(state => state.cart.cartItems)
+    const orderFlag = useSelector(state => state.orders.flag)
     const dispatch = useDispatch()
 
     const userInfo = Cookie.get('userInfo') ? JSON.parse(Cookie.get('userInfo')) : null
@@ -138,6 +140,7 @@ export default function CustomCheckout() {
         console.log(orderError)
 
         if (order) {
+            dispatch(setFlag(!orderFlag))
             toast.success('Order created successfully', {
                 position: "top-right",
                 autoClose: 1500,

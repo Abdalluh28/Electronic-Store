@@ -3,18 +3,25 @@ import Cookie from 'js-cookie'
 import { useGetMyOrdersQuery } from '../../redux/features/orders/OrdersApiSlice'
 import { Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export default function MyOrders() {
 
     const accessToken = Cookie.get('accessToken') ? Cookie.get('accessToken') : null
     const userInfo = Cookie.get('userInfo') ? JSON.parse(Cookie.get('userInfo')) : null
-    const { data: myOrders, isLoading } = useGetMyOrdersQuery({ accessToken, id: userInfo.id })
+    const { data: myOrders, isLoading, refetch } = useGetMyOrdersQuery({ accessToken, id: userInfo.id })
+
+    const orderFlag = useSelector(state => state.orders.flag)
 
     useEffect(() => {
         if (myOrders) {
             console.log(myOrders)
         }
     }, [myOrders])
+
+    useEffect(() => {
+        refetch();
+    }, [orderFlag])
 
 
     return (

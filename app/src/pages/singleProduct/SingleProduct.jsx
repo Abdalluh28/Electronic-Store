@@ -43,9 +43,9 @@ export default function SingleProduct() {
 
     useEffect(() => {
         if (data) {
-            setImages(data?.product?.images.map((image) => `${process.env.REACT_APP_API_URL}${image}`))
-            setImagesToShow(data?.product?.images.map((image) => `${process.env.REACT_APP_API_URL}${image}`))
-            setBorderImage(`${process.env.REACT_APP_API_URL}${data?.product?.images[0]}`)
+            setImages(data?.product?.images.map((image) => image.includes('cloudinary') ? image : `${process.env.REACT_APP_API_URL}${image}`))
+            setImagesToShow(data?.product?.images.map((image) => image.includes('cloudinary') ? image : `${process.env.REACT_APP_API_URL}${image}`))
+            setBorderImage(data?.product?.images[0].includes('cloudinary') ? data?.product?.images[0] :`${process.env.REACT_APP_API_URL}${data?.product?.images[0]}`)
 
             const num = Math.round(data?.product?.rating * 2) / 2;
             setRating(num)
@@ -287,7 +287,7 @@ export default function SingleProduct() {
                             <div className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 '>
                                 {relatedProducts?.products?.map((product, index) => (
                                     <ProductCard key={product._id} product={product} index={index}
-                                        image={`${process.env.REACT_APP_API_URL}${product.images[0]}`}
+                                        image={ product.images[0].includes('cloudinary') ? product.images[0] :`${process.env.REACT_APP_API_URL}${product.images[0]}`}
                                         categories={categories} />
                                 ))}
                             </div>

@@ -35,7 +35,8 @@ export default function MyOrders() {
                                 {order.orderItems.map(item => (
                                     <div className='flex gap-2 items-center border-r pr-1'>
                                         <p>{item.qty} * </p>
-                                        <img src={process.env.REACT_APP_API_URL + item.image} alt={item.name} className='w-16 h-16 object-cover rounded-lg' />
+                                        <img src={ item.image.includes('cloudinary') ? item.image : process.env.REACT_APP_API_URL + item.image}
+                                        alt={item.name} className='w-16 h-16 object-cover rounded-lg' />
                                     </div>
                                 ))}
                             </div>

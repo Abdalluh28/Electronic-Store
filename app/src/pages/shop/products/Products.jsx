@@ -15,6 +15,11 @@ export default function Products({ products }) {
                 const imageUrls = [];
                 for (const product of products) {
                     try {
+                        if (product.images[0].includes('cloudinary')) {
+                            const imageUrl = product.images[0];
+                            imageUrls.push(imageUrl);
+                            continue;
+                        }
                         const imageUrl = `${process.env.REACT_APP_API_URL}${product.images[0]}`
                         imageUrls.push(imageUrl);
                     } catch (error) {

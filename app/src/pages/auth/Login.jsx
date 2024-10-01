@@ -150,7 +150,7 @@ export default function Login() {
                 const items = data?.items.map((item) => {
                     return {
                         ...item,
-                        image: `${process.env.REACT_APP_API_URL}${item.image}`,
+                        image: item.image.includes('cloudinary') ? `${item.image}` : `${process.env.REACT_APP_API_URL}${item.image}`,
                     }
                 })
                 dispatch(updateCartAfterLogin({ cartItems: items, totalPrice: data?.totalPrice, totalQuantity: data?.totalQuantity }));
@@ -160,7 +160,7 @@ export default function Login() {
                 const favouriteItems = data?.favouriteItems.map((item) => {
                     return {
                         ...item,
-                        image: `${process.env.REACT_APP_API_URL}${item.image}`,
+                        image: item.image.includes('cloudinary') ? `${item.image}` : `${process.env.REACT_APP_API_URL}${item.image}`,
                     }
                 })
                 dispatch(updateFavouriteAfterLogin({ favouriteItems: favouriteItems, favouriteTotalQuantity: data?.favouriteTotalQuantity }));

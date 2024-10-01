@@ -20,15 +20,15 @@ const InteractiveDualRangeSlider = () => {
 
     useEffect(() => {
         gsap.registerPlugin(Draggable);
-
+    
         const updateValues = (name) => {
             const parentWidth = parent.current.offsetWidth;
             const leftPosition = gsap.getProperty(left.current, 'x');
             const rightPosition = gsap.getProperty(right.current, 'x');
-
+    
             const leftScaled = Math.round((leftPosition / parentWidth) * maxRange);
             const rightScaled = Math.round(((parentWidth + rightPosition) / parentWidth) * maxRange);
-
+    
             if (name === 'left') {
                 setLeftValue(leftScaled);
                 updatePriceRange('min', leftScaled);
@@ -37,20 +37,38 @@ const InteractiveDualRangeSlider = () => {
                 updatePriceRange('max', rightScaled);
             }
         };
-
+    
         const createDraggable = (ref, name) => {
             Draggable.create(ref, {
                 type: 'x',
                 bounds: parent.current,
-                onDrag: () => updateValues(name),
+                onDrag: function () {
+                    const parentWidth = parent.current.offsetWidth;
+                    const leftPosition = gsap.getProperty(left.current, 'x');
+                    const rightPosition = gsap.getProperty(right.current, 'x');
+    
+                    // Prevent the left handle from crossing the right handle
+                    if (name === 'left' && leftPosition > rightPosition - 20) {
+                        gsap.set(left.current, { x: rightPosition - 20 }); // Add some padding to avoid overlap
+                    }
+    
+                    // Prevent the right handle from crossing the left handle
+                    if (name === 'right' && rightPosition < leftPosition + 20) {
+                        gsap.set(right.current, { x: leftPosition + 20 }); // Add some padding to avoid overlap
+                    }
+    
+                    updateValues(name);
+                },
                 liveSnap: true,
                 lockAxis: true,
             });
         };
-
+    
         createDraggable(left.current, 'left');
         createDraggable(right.current, 'right');
     }, [maxRange]);
+    
+    
 
     useEffect(() => {
         const updateDraggables = () => {

@@ -110,12 +110,12 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
         const myOrders = orders.filter(order => order.user.toString() === id);
 
-        if (!orders) {
+        if (!myOrders) {
             console.log(orders)
             return res.status(404).json({ message: "Orders not found" })
         }
 
-        res.status(200).json(orders);
+        res.status(200).json(myOrders);
 
 
 

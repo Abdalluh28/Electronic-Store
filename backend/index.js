@@ -15,9 +15,10 @@ connectDB();
 
 // Middleware setup
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 app.use(cookieParser());
 app.use(express.json());
-
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 

@@ -14,7 +14,16 @@ const app = express();
 connectDB();
 
 // Middleware setup
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: "*",         // <--- this allows any origin
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type,Authorization",
+  credentials: false   // must be false if origin is "*"
+}));
+
+// Optional: handle preflight requests
+app.options("*", cors());
+
 app.use(cookieParser());
 app.use(express.json());
 

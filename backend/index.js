@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const session = require('express-session');
+const cors = require('cors');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -13,18 +13,18 @@ const app = express();
 connectDB();
 
 // --------- CORS Middleware ---------
-// Allow all origins, methods, and headers
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow any origin
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow these HTTP methods
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow these headers
-  next();
-});
+// Use the official cors package
+app.use(
+  cors({
+    origin: "*", // allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false, // cannot be true if origin is "*"
+  })
+);
 
 // Handle preflight requests
-app.options('*', (req, res) => {
-  res.sendStatus(200);
-});
+app.options("*", cors());
 
 // --------- Other Middleware ---------
 app.use(cookieParser());

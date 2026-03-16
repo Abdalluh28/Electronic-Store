@@ -2,53 +2,40 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const cors = require('cors');
-
+const corsOptions = require('./config/corsOptions');
+const session = require('express-session');
 const port = process.env.PORT || 3000;
+
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
-// --------- CORS Middleware ---------
-// Use the official cors package
-app.use(
-  cors({
-    origin: "*", // allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: false, // cannot be true if origin is "*"
-  })
-);
-
-// Handle preflight requests
-app.options("*", cors());
-
-// --------- Other Middleware ---------
+// Middleware setup
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
-// Serve uploads folder
+
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// --------- Routes ---------
+// Routes
 app.use('/', require('./routes/root'));
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/users', require('./routes/userRoutes'));
 app.use('/password', require('./routes/passwordRoutes'));
 app.use('/category', require('./routes/categoryRoutes'));
 app.use('/products', require('./routes/productRoutes'));
-app.use('/upload', require('./routes/uploadRoutes'));
+app.use('/upload', require('./routes/uploadRoutes')); // Image upload
 app.use('/orders', require('./routes/orderRoutes'));
-app.use('/cart', require('./routes/cartRoutes'));
-app.use('/favourite', require('./routes/favouriteRoutes'));
 app.use('/payment', require('./routes/paymentRoutes'));
+app.use('/chart', require('./routes/chartRoutes'));
 
-// --------- Start Server ---------
+// Start server after MongoDB connection is established
 mongoose.connection.once('open', () => {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
 });

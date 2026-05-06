@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 
 router.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../views/one.html'));
+    res.sendFile(path.resolve(__dirname, '../views/index.html'));
 })
 
 
